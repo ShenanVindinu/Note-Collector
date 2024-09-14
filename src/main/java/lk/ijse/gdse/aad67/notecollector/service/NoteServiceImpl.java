@@ -1,9 +1,11 @@
 package lk.ijse.gdse.aad67.notecollector.service;
 
 import lk.ijse.gdse.aad67.notecollector.dto.impl.NoteDTO;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class NoteServiceImpl implements NoteService {
     @Override
     public String saveNote(NoteDTO noteDTO) {
