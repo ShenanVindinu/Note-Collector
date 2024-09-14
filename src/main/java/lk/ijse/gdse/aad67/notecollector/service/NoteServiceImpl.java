@@ -10,17 +10,17 @@ import java.util.List;
 @Service
 public class NoteServiceImpl implements NoteService {
 
-    private static List<NoteDTO> notes = new ArrayList<>();
+    private static List<NoteDTO> noteDTOList = new ArrayList<>();
 
     public NoteServiceImpl() {
-        notes.add(new NoteDTO(
-                "Note2",
-                "Sample Title",
-                "sample desc",
-                "2024.09.07",
-                "P1",
-                "2"
-        ));
+        noteDTOList.add(new NoteDTO("NOTE-1824e626-685c-4e35-8a49-3ed6ee005f2a","Python","PythonDesc",
+                "20240914","P1","2"));
+        noteDTOList.add(new NoteDTO("NOTE-1824e626-685c-4e35-8a49-3ed6ee005f5a","JS","JavaScriptDesc",
+                "20240914","P3","4"));
+        noteDTOList.add(new NoteDTO("NOTE-1824e626-685c-4e35-8a49-3ed6ee005dda","Kotlin","KotlinDesc",
+                "20240914","P1","1"));
+        noteDTOList.add(new NoteDTO("NOTE-1824e626-685c-4e35-8a49-3ed6ee005gga","TS","TSDesc",
+                "20240914","P2","2"));
     }
 
     @Override
@@ -31,7 +31,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public List<NoteDTO> getAllNotes() {
-        return List.of();
+        return noteDTOList;
     }
 
     @Override
