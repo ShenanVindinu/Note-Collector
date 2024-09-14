@@ -26,7 +26,7 @@ public class WebAppRootConfig {
         dmds.setDriverClassName("com.mysql.jdbc.Driver");
         dmds.setUrl("jdbc:mysql://localhost:3306/notecollector");
         dmds.setUsername("root");
-        dmds.setPassword("mysql");
+        dmds.setPassword("Ijse@123");
         return dmds;
     }
 
