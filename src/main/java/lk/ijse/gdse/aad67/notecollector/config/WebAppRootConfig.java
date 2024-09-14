@@ -3,10 +3,9 @@ package lk.ijse.gdse.aad67.notecollector.config;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -15,16 +14,16 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
-@ComponentScan
-@ComponentScan(basePackages = "lk.ijse.gdse.aad67.notecollector")
+@Configuration
 @EnableJpaRepositories
 @EnableTransactionManagement
+@ComponentScan(basePackages = "lk.ijse.gdse.aad67.notecollector")
 public class WebAppRootConfig {
     @Bean
     public DataSource dataSource() {
         var dmds = new DriverManagerDataSource();
-        dmds.setDriverClassName("com.mysql.jdbc.Driver");
-        dmds.setUrl("jdbc:mysql://localhost:3306/notecollector?createDatabaseIfNotExist=true&useSSL=false");
+        dmds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dmds.setUrl("jdbc:mysql://localhost:3306/note_collector?createDatabaseIfNotExist=true&useSSL=false");
         dmds.setUsername("root");
         dmds.setPassword("Ijse@123");
         return dmds;
