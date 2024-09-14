@@ -1,15 +1,18 @@
 package lk.ijse.gdse.aad67.notecollector.service;
 
 import lk.ijse.gdse.aad67.notecollector.dto.impl.NoteDTO;
+import lk.ijse.gdse.aad67.notecollector.util.AppUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class NoteServiceImpl implements NoteService {
     @Override
-    public String saveNote(NoteDTO noteDTO) {
-        return "";
+    public NoteDTO saveNote(NoteDTO noteDTO) {
+        noteDTO.setNoteId(AppUtil.generateNoteId());
+        return noteDTO;
     }
 
     @Override
