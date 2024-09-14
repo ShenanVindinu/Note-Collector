@@ -1,5 +1,7 @@
 package lk.ijse.gdse.aad67.notecollector;
 
+import jakarta.servlet.MultipartConfigElement;
+import jakarta.servlet.ServletRegistration;
 import lk.ijse.gdse.aad67.notecollector.config.WebAppConfig;
 import lk.ijse.gdse.aad67.notecollector.config.WebAppRootConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -20,4 +22,10 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
+    @Override
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        String tempDir = System.getProperty("java.io.tmpdir");
+        registration.setMultipartConfig(new MultipartConfigElement(tempDir));
+    }
+
 }

@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "note")
 public class NoteEntity implements SuperEntity {
+
     @Id
     private String noteId;
     private String noteTitle;
@@ -20,6 +21,6 @@ public class NoteEntity implements SuperEntity {
     private String priorityLevel;
 
     @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
-    private UserEntity userId;
+    @JoinColumn(name = "userId",nullable = false)
+    private UserEntity user;
 }
