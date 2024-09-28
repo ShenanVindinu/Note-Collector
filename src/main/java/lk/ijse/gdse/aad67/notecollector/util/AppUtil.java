@@ -14,7 +14,7 @@ public class AppUtil {
         return "User" + UUID.randomUUID();
     }
 
-    public static String ProfilePicToBase64(String profilePic) {
-       return Base64.getEncoder().encodeToString(profilePic.getBytes());
+    public static String ProfilePicToBase64(byte[] profilePic) {
+       return Base64.getEncoder().encodeToString(profilePic);
     }
 }
