@@ -74,7 +74,7 @@ public class UserController {
             @RequestPart("email") String email,
             @RequestPart("password") String password,
             @RequestPart("profilePic") MultipartFile profilePic,
-            @PathVariable("/{userId}") String userId
+            @PathVariable("userId") String userId
     ){
 
         String base64ProPic = "";
