@@ -1,9 +1,12 @@
 package lk.ijse.gdse.aad67.notecollector.controller;
 
 import lk.ijse.gdse.aad67.notecollector.customStatusCodes.SelectedUserErrorStatus;
+import lk.ijse.gdse.aad67.notecollector.dao.UserDAO;
 import lk.ijse.gdse.aad67.notecollector.dto.UserStatus;
 import lk.ijse.gdse.aad67.notecollector.dto.impl.UserDTO;
+import lk.ijse.gdse.aad67.notecollector.entity.impl.UserEntity;
 import lk.ijse.gdse.aad67.notecollector.exception.DataPersistException;
+import lk.ijse.gdse.aad67.notecollector.exception.UserNotFoundException;
 import lk.ijse.gdse.aad67.notecollector.service.UserService;
 import lk.ijse.gdse.aad67.notecollector.util.AppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @RestController
@@ -22,6 +26,8 @@ import java.util.regex.Pattern;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserDAO userDAO;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> saveUser(
@@ -74,8 +80,23 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping( "/{userId}" )
-    public void deleteUser(@PathVariable("userId") String userId){
-        userService.deleteUser(userId);
+    public ResponseEntity<Void> deleteUser(@PathVariable("userId") String userId){
+        String regexForUserID = "^User[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$";
+        Pattern regexPattern = Pattern.compile(regexForUserID);
+        var regexMatcher = regexPattern.matcher(userId);
+        try {
+            if(!regexMatcher.matches()){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            userService.deleteUser(userId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

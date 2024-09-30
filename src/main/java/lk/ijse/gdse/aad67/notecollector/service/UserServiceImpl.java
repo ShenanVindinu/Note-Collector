@@ -4,6 +4,7 @@ import lk.ijse.gdse.aad67.notecollector.dao.UserDAO;
 import lk.ijse.gdse.aad67.notecollector.dto.impl.UserDTO;
 import lk.ijse.gdse.aad67.notecollector.entity.impl.UserEntity;
 import lk.ijse.gdse.aad67.notecollector.exception.DataPersistException;
+import lk.ijse.gdse.aad67.notecollector.exception.UserNotFoundException;
 import lk.ijse.gdse.aad67.notecollector.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(String userId) {
-        userDAO.deleteById(userId);
+        Optional<UserEntity> existedUser = userDAO.findById(userId);
+        if (existedUser.isEmpty()) {
+            throw new UserNotFoundException("User with ID " + userId + " not found");
+        } else {
+            userDAO.deleteById(userId);
+        }
     }
 
     @Override
