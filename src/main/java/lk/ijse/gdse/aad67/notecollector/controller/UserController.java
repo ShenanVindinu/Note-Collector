@@ -1,11 +1,13 @@
 package lk.ijse.gdse.aad67.notecollector.controller;
 
 import lk.ijse.gdse.aad67.notecollector.dto.impl.UserDTO;
+import lk.ijse.gdse.aad67.notecollector.exception.DataPersistException;
 import lk.ijse.gdse.aad67.notecollector.service.UserService;
 import lk.ijse.gdse.aad67.notecollector.util.AppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,7 +21,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserDTO saveUser(
+    public ResponseEntity<Void> saveUser(
             @RequestPart("firstName") String firstName,
             @RequestPart("lastName") String lastName,
             @RequestPart("email") String email,
@@ -33,21 +35,25 @@ public class UserController {
         try {
             byte[] bytes = profilePic.getBytes();
             base64ProPic = AppUtil.ProfilePicToBase64(bytes);
+
+            String userId = AppUtil.generateUserId();
+
+            //Todo: Build the Object
+            var buildUserDTO = new UserDTO();
+            buildUserDTO.setFirstName(firstName);
+            buildUserDTO.setLastName(lastName);
+            buildUserDTO.setEmail(email);
+            buildUserDTO.setPassword(password);
+            buildUserDTO.setProfilePic(base64ProPic);
+            buildUserDTO.setUserId(userId);
+            userService.saveUser(buildUserDTO);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (DataPersistException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
         } catch (Exception e) {
-            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        String userId = AppUtil.generateUserId();
-
-        //Todo: Build the Object
-        var buildUserDTO = new UserDTO();
-        buildUserDTO.setFirstName(firstName);
-        buildUserDTO.setLastName(lastName);
-        buildUserDTO.setEmail(email);
-        buildUserDTO.setPassword(password);
-        buildUserDTO.setProfilePic(base64ProPic);
-        buildUserDTO.setUserId(userId);
-        return userService.saveUser(buildUserDTO);
 
     }
 
