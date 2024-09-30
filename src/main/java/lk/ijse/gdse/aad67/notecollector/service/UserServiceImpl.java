@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,7 +21,6 @@ public class UserServiceImpl implements UserService {
         UserEntity user = mapping.toUserEntity(userDTO);
         UserEntity save = userDAO.save(user);
         return mapping.toUserDTO(save);
-
     }
 
     @Override
@@ -30,16 +30,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUser(String userId) {
-        return null;
+      UserEntity selectedUser = userDAO.getReferenceById(userId);
+      return mapping.toUserDTO(selectedUser);
     }
 
     @Override
-    public boolean deleteUser(UserDTO userDTO) {
-        return false;
+    public void deleteUser(String userId) {
+        userDAO.deleteById(userId);
     }
 
     @Override
-    public boolean updateUser(UserDTO userDTO) {
-        return false;
+    public void updateUser(String userId,UserDTO userDTO) {
+        Optional<UserEntity> tmpUser = userDAO.findById(userId);
+        if (tmpUser.isPresent()) {
+            tmpUser.get().setFirstName(userDTO.getFirstName());
+            tmpUser.get().setLastName(userDTO.getLastName());
+            tmpUser.get().setEmail(userDTO.getEmail());
+            tmpUser.get().setPassword(userDTO.getPassword());
+            tmpUser.get().setProfilePic(userDTO.getProfilePic());
+        }
     }
+
+
 }

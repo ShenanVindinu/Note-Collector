@@ -20,11 +20,17 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 @ComponentScan(basePackages = "lk.ijse.gdse.aad67.notecollector")
 public class WebAppRootConfig {
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
+
     @Bean
     public DataSource dataSource() {
         var dmds = new DriverManagerDataSource();
         dmds.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dmds.setUrl("jdbc:mysql://localhost:3306/note_collector?createDatabaseIfNotExist=true&useSSL=false");
+        dmds.setUrl("jdbc:mysql://localhost:3306/note_collector?createDatabaseIfNotExist=true");
         dmds.setUsername("root");
         dmds.setPassword("Ijse@123");
         return dmds;
@@ -49,11 +55,6 @@ public class WebAppRootConfig {
         JpaTransactionManager txManager = new JpaTransactionManager();
         txManager.setEntityManagerFactory(entityManagerFactory);
         return txManager;
-    }
-
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
     }
 
 }
