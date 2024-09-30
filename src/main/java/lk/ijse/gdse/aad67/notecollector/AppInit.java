@@ -15,13 +15,14 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[] {WebAppConfig.class};
+        return new Class[]{WebAppConfig.class};
     }
 
     @Override
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
+
     @Override
     protected void customizeRegistration(ServletRegistration.Dynamic registration) {
         String tempDir = System.getProperty("java.io.tmpdir");
