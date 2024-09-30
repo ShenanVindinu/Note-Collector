@@ -4,7 +4,7 @@ import lk.ijse.gdse.aad67.notecollector.customStatusCodes.SelectedUserErrorStatu
 import lk.ijse.gdse.aad67.notecollector.dao.UserDAO;
 import lk.ijse.gdse.aad67.notecollector.dto.UserStatus;
 import lk.ijse.gdse.aad67.notecollector.dto.impl.UserDTO;
-import lk.ijse.gdse.aad67.notecollector.entity.impl.UserEntity;
+
 import lk.ijse.gdse.aad67.notecollector.exception.DataPersistException;
 import lk.ijse.gdse.aad67.notecollector.exception.UserNotFoundException;
 import lk.ijse.gdse.aad67.notecollector.service.UserService;
@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
+
 import java.util.regex.Pattern;
 
 @RestController
