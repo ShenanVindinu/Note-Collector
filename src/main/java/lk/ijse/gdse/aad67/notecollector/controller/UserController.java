@@ -66,26 +66,26 @@ public class UserController {
 
     }
 
-    @GetMapping(value = "/{userId}" ,produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserStatus getSelectedUser(@PathVariable("userId") String userId){
+    @GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserStatus getSelectedUser(@PathVariable("userId") String userId) {
         String regexForUserID = "^User[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$";
         Pattern regexPattern = Pattern.compile(regexForUserID);
         var regexMatcher = regexPattern.matcher(userId);
 
-        if(!regexMatcher.matches()){
-            return new SelectedUserErrorStatus(1,"User ID is not valid");
+        if (!regexMatcher.matches()) {
+            return new SelectedUserErrorStatus(1, "User ID is not valid");
         }
         return userService.getUser(userId);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping( "/{userId}" )
-    public ResponseEntity<Void> deleteUser(@PathVariable("userId") String userId){
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable("userId") String userId) {
         String regexForUserID = "^User[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$";
         Pattern regexPattern = Pattern.compile(regexForUserID);
         var regexMatcher = regexPattern.matcher(userId);
         try {
-            if(!regexMatcher.matches()){
+            if (!regexMatcher.matches()) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             userService.deleteUser(userId);
@@ -100,7 +100,7 @@ public class UserController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<UserDTO> getAllUsers(){
+    public List<UserDTO> getAllUsers() {
         return userService.getAllUsers();
     }
 
@@ -112,7 +112,7 @@ public class UserController {
             @RequestPart("password") String password,
             @RequestPart("profilePic") MultipartFile profilePic,
             @PathVariable("userId") String userId
-    ){
+    ) {
 
         String base64ProPic = "";
 
