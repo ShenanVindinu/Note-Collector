@@ -15,6 +15,6 @@ public class AppUtil {
     }
 
     public static String ProfilePicToBase64(byte[] profilePic) {
-       return Base64.getEncoder().encodeToString(profilePic);
+        return Base64.getEncoder().encodeToString(profilePic);
     }
 }
