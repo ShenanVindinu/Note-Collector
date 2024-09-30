@@ -1,5 +1,7 @@
 package lk.ijse.gdse.aad67.notecollector.controller;
 
+import lk.ijse.gdse.aad67.notecollector.customStatusCodes.SelectedUserErrorStatus;
+import lk.ijse.gdse.aad67.notecollector.dto.UserStatus;
 import lk.ijse.gdse.aad67.notecollector.dto.impl.UserDTO;
 import lk.ijse.gdse.aad67.notecollector.exception.DataPersistException;
 import lk.ijse.gdse.aad67.notecollector.service.UserService;
@@ -13,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("api/v1/users")
@@ -58,7 +61,14 @@ public class UserController {
     }
 
     @GetMapping(value = "/{userId}" ,produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserDTO getSelectedUser(@PathVariable("userId") String userId){
+    public UserStatus getSelectedUser(@PathVariable("userId") String userId){
+        String regexForUserID = "^User[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$";
+        Pattern regexPattern = Pattern.compile(regexForUserID);
+        var regexMatcher = regexPattern.matcher(userId);
+
+        if(!regexMatcher.matches()){
+            return new SelectedUserErrorStatus(1,"User ID is not valid");
+        }
         return userService.getUser(userId);
     }
 
